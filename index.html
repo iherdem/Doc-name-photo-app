@@ -1,0 +1,449 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gemini Sanal Seyahat Çift Fotoğrafçısı</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Dahili ufak CSS (senin yazdıkların + küçük iyileştirmeler) -->
+  <style>
+    /* Inter font kullanımı için body; gerçek yükleme linkleri aşağıda */
+    body { font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+
+    @keyframes pulse-once {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+    .animate-pulse-once { animation: pulse-once .3s ease-in-out; }
+
+    /* Yükleme overlay */
+    #loading-overlay { position:absolute; inset:0; z-index:50; }
+
+    /* Görsel pasajları */
+    #generated-image {
+      user-select: auto;
+      -webkit-touch-callout: default; /* iOS Safari */
+    }
+
+    /* DnD aktif stili */
+    .drop-area-active { border-color:#4f46e5; background-color:#eef2ff; }
+  </style>
+
+  <!-- Google Fonts: Inter (gerçek yükleme) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Harici stil dosyan (seninki) -->
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body class="min-h-screen bg-gray-100 text-gray-800">
+  <main class="py-8">
+    <div class="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-2xl relative">
+
+      <!-- Başlık -->
+      <header class="mb-6 sm:mb-8">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-indigo-700">
+          Sanal Seyahat: Çift Fotoğraf Kompoziti
+        </h1>
+        <p class="text-gray-600 mt-1">İki kişiyi dünyaca ünlü bir mekâna birlikte yerleştir.</p>
+      </header>
+
+      <!-- İki resim yükleme alanı -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
+        <!-- Drop 1 -->
+        <div id="drop-area-1"
+             class="border-2 border-dashed border-gray-300 rounded-xl p-4 sm:p-6 text-center transition">
+          <p class="text-sm text-gray-600 mb-3">1. Kişi Fotoğrafı</p>
+          <input type="file" id="file-input-1" accept="image/*" class="hidden"/>
+          <button id="select-image-btn-1" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm">
+            Dosya Seç
+          </button>
+          <div id="image-preview-1" class="mt-3"></div>
+          <button id="remove-image-btn-1"
+                  class="hidden mt-3 px-3 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm">
+            Kaldır
+          </button>
+        </div>
+
+        <!-- Drop 2 -->
+        <div id="drop-area-2"
+             class="border-2 border-dashed border-gray-300 rounded-xl p-4 sm:p-6 text-center transition">
+          <p class="text-sm text-gray-600 mb-3">2. Kişi Fotoğrafı</p>
+          <input type="file" id="file-input-2" accept="image/*" class="hidden"/>
+          <button id="select-image-btn-2" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm">
+            Dosya Seç
+          </button>
+          <div id="image-preview-2" class="mt-3"></div>
+          <button id="remove-image-btn-2"
+                  class="hidden mt-3 px-3 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm">
+            Kaldır
+          </button>
+        </div>
+      </section>
+
+      <!-- Lokasyon (Wonder) seçimleri -->
+      <section class="mb-6">
+        <h2 class="text-base font-semibold mb-3">Mekân Seç</h2>
+        <div id="wonder-selection"
+             class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          <!-- JS dolduracak -->
+        </div>
+      </section>
+
+      <!-- Çekim türü & Mevsim -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
+        <div>
+          <h3 class="text-sm font-semibold mb-2">Çekim Türü</h3>
+          <div class="flex gap-2">
+            <button data-shot="selfie"
+                    class="shot-type-btn px-3 py-2 rounded-lg border text-sm bg-white border-gray-200 hover:border-indigo-400">
+              Selfie
+            </button>
+            <button data-shot="full"
+                    class="shot-type-btn px-3 py-2 rounded-lg border text-sm bg-white border-gray-200 hover:border-indigo-400">
+              Tam Boy
+            </button>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold mb-2">Mevsim</h3>
+          <div class="flex gap-2">
+            <button data-season="summer"
+                    class="season-type-btn px-3 py-2 rounded-lg border text-sm bg-white border-gray-200 hover:border-indigo-400">
+              Yaz
+            </button>
+            <button data-season="winter"
+                    class="season-type-btn px-3 py-2 rounded-lg border text-sm bg-white border-gray-200 hover:border-indigo-400">
+              Kış
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hata mesajı -->
+      <p id="error-message" class="hidden text-sm text-red-600 mb-3"></p>
+
+      <!-- Oluştur butonu -->
+      <div class="mb-6">
+        <button id="generate-btn"
+                class="w-full px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow">
+          Görseli Oluştur
+        </button>
+      </div>
+
+      <!-- Sonuç alanı -->
+      <section id="result-container" class="aspect-video bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
+        <img id="generated-image" class="hidden w-full h-full object-cover" alt="Oluşturulan Görsel"/>
+        <div id="result-placeholder" class="w-full h-full flex items-center justify-center text-gray-400">
+          Henüz bir görsel yok
+        </div>
+      </section>
+
+      <!-- Aksiyon butonları -->
+      <div id="action-buttons" class="hidden mt-4 flex gap-2 justify-end">
+        <a id="download-btn"
+           class="px-4 py-2 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200"
+           download="sanal-seyahat-cifti.png">İndir</a>
+        <button id="reset-btn"
+                class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 border border-gray-200">
+          Sıfırla
+        </button>
+      </div>
+
+      <!-- Yükleme overlay -->
+      <div id="loading-overlay" class="hidden bg-white/70 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+        <div class="flex items-center gap-3 text-indigo-700">
+          <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+            <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+          </svg>
+          <span>Oluşturuluyor…</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Uygulama JS -->
+  <script>
+    // ====== Konfig (API) ======
+    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image-preview:generateContent?key=";
+    const API_KEY = AIzaSyButgT-pV3XWkxodvEvy9xpJ4CzV2CL1PY; // <-- kendi anahtarını ekle
+
+    // ====== UI elemanları ======
+    const $drop1 = document.getElementById('drop-area-1');
+    const $drop2 = document.getElementById('drop-area-2');
+    const $file1 = document.getElementById('file-input-1');
+    const $file2 = document.getElementById('file-input-2');
+    const $selBtn1 = document.getElementById('select-image-btn-1');
+    const $selBtn2 = document.getElementById('select-image-btn-2');
+    const $prev1 = document.getElementById('image-preview-1');
+    const $prev2 = document.getElementById('image-preview-2');
+    const $rm1 = document.getElementById('remove-image-btn-1');
+    const $rm2 = document.getElementById('remove-image-btn-2');
+
+    const $wonderSelection = document.getElementById('wonder-selection');
+
+    const $genBtn = document.getElementById('generate-btn');
+    const $loading = document.getElementById('loading-overlay');
+    const $err = document.getElementById('error-message');
+
+    const $img = document.getElementById('generated-image');
+    const $placeholder = document.getElementById('result-placeholder');
+    const $actions = document.getElementById('action-buttons');
+    const $download = document.getElementById('download-btn');
+    const $reset = document.getElementById('reset-btn');
+
+    let uploadedImageBase64_1 = null;
+    let uploadedImageBase64_2 = null;
+
+    // ====== Örnek mekan listesi ======
+    const WONDERS = [
+      { name: "Eiffel (Paris)", icon: "🗼", promptDetail: "the Eiffel Tower in Paris at sunset with warm city lights" },
+      { name: "Colosseum", icon: "🏛️", promptDetail: "the Colosseum in Rome with soft golden-hour light" },
+      { name: "Santorini", icon: "🏖️", promptDetail: "Santorini's blue-domed churches and cliffside village at dusk" },
+      { name: "Machu Picchu", icon: "⛰️", promptDetail: "Machu Picchu terraces with morning mist in the Andes" },
+      { name: "Cappadocia", icon: "🎈", promptDetail: "Cappadocia fairy chimneys with hot-air balloons at sunrise" },
+      { name: "Times Square", icon: "🗽", promptDetail: "Times Square night scene with neon signs and busy streets" },
+      { name: "Tokyo Shibuya", icon: "🗾", promptDetail: "Shibuya crossing with crowds and bright billboards" },
+      { name: "Pamukkale", icon: "💧", promptDetail: "Pamukkale travertines with turquoise pools under clear sky" }
+    ];
+    let selectedWonderIndex = 0;
+
+    // ====== Yardımcılar ======
+    function readFileAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => {
+          const res = r.result;
+          // data URL -> base64 kısmını ayıkla
+          const base64 = res.split(',')[1];
+          resolve(base64);
+        };
+        r.onerror = reject;
+        r.readAsDataURL(file);
+      });
+    }
+
+    function showPreview($container, file) {
+      const url = URL.createObjectURL(file);
+      $container.innerHTML = `<img src="${url}" alt="preview" class="mx-auto max-h-60 object-contain">`;
+    }
+
+    function setLoading(on) {
+      if (on) {
+        $loading.classList.remove('hidden');
+        $genBtn.setAttribute('disabled', 'disabled');
+      } else {
+        $loading.classList.add('hidden');
+        $genBtn.removeAttribute('disabled');
+      }
+    }
+
+    function setError(msg) {
+      if (!msg) {
+        $err.classList.add('hidden');
+        $err.textContent = '';
+      } else {
+        $err.textContent = msg;
+        $err.classList.remove('hidden');
+      }
+    }
+
+    // ====== DnD kurulumları ======
+    function wireDropArea($area, $fileInput, $preview, $removeBtn, who) {
+      $area.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        $area.classList.add('drop-area-active');
+      });
+      $area.addEventListener('dragleave', () => {
+        $area.classList.remove('drop-area-active');
+      });
+      $area.addEventListener('drop', async (e) => {
+        e.preventDefault();
+        $area.classList.remove('drop-area-active');
+        const f = e.dataTransfer.files?.[0];
+        if (!f) return;
+        await handleFile(f, who, $preview, $removeBtn);
+      });
+
+      $fileInput.addEventListener('change', async (e) => {
+        const f = e.target.files?.[0];
+        if (!f) return;
+        await handleFile(f, who, $preview, $removeBtn);
+      });
+    }
+
+    async function handleFile(file, who, $preview, $removeBtn) {
+      if (!file.type.startsWith('image/')) {
+        setError('Lütfen bir resim dosyası seçin.');
+        return;
+      }
+      setError('');
+      showPreview($preview, file);
+      const base64 = await readFileAsBase64(file);
+      if (who === 1) uploadedImageBase64_1 = base64;
+      if (who === 2) uploadedImageBase64_2 = base64;
+      $removeBtn.classList.remove('hidden');
+      $removeBtn.onclick = () => {
+        if (who === 1) uploadedImageBase64_1 = null;
+        if (who === 2) uploadedImageBase64_2 = null;
+        $preview.innerHTML = '';
+        $removeBtn.classList.add('hidden');
+      };
+    }
+
+    // ====== Başlangıç UI kurulumları ======
+    window.addEventListener('load', () => {
+      // Dosya seçim butonları
+      $selBtn1.addEventListener('click', () => $file1.click());
+      $selBtn2.addEventListener('click', () => $file2.click());
+
+      wireDropArea($drop1, $file1, $prev1, $rm1, 1);
+      wireDropArea($drop2, $file2, $prev2, $rm2, 2);
+
+      // Wonder butonlarını oluştur
+      WONDERS.forEach((wonder, index) => {
+        const btn = document.createElement('button');
+        btn.className = `wonder-btn flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl text-center transition-all duration-200 border-2 shadow-sm ${
+          index === 0
+            ? 'bg-indigo-600 text-white border-indigo-700 scale-[1.02] shadow-indigo-300/50'
+            : 'bg-white text-gray-700 border-gray-200 hover:border-indigo-400'
+        }`;
+        btn.innerHTML = `<span class="text-2xl mb-1">${wonder.icon}</span><span class="text-sm font-medium">${wonder.name}</span>`;
+        btn.setAttribute('data-index', index);
+        btn.addEventListener('click', () => {
+          selectedWonderIndex = index;
+          document.querySelectorAll('.wonder-btn').forEach((b, i) => {
+            if (i === index) {
+              b.className =
+                'wonder-btn flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl text-center transition-all duration-200 border-2 shadow-sm bg-indigo-600 text-white border-indigo-700 scale-[1.02] shadow-indigo-300/50';
+            } else {
+              b.className =
+                'wonder-btn flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl text-center transition-all duration-200 border-2 shadow-sm bg-white text-gray-700 border-gray-200 hover:border-indigo-400';
+            }
+          });
+        });
+        $wonderSelection.appendChild(btn);
+      });
+
+      // Çekim & mevsim butonları
+      let shotType = 'selfie';
+      let selectedSeason = 'summer';
+
+      document.querySelectorAll('.shot-type-btn').forEach((b) => {
+        b.addEventListener('click', () => {
+          shotType = b.getAttribute('data-shot');
+          document.querySelectorAll('.shot-type-btn').forEach(x => x.classList.remove('bg-indigo-600','text-white','border-indigo-700'));
+          b.classList.add('bg-indigo-600','text-white','border-indigo-700');
+        });
+      });
+
+      document.querySelectorAll('.season-type-btn').forEach((b) => {
+        b.addEventListener('click', () => {
+          selectedSeason = b.getAttribute('data-season');
+          document.querySelectorAll('.season-type-btn').forEach(x => x.classList.remove('bg-indigo-600','text-white','border-indigo-700'));
+          b.classList.add('bg-indigo-600','text-white','border-indigo-700');
+        });
+      });
+
+      // Oluştur butonu
+      $genBtn.addEventListener('click', async () => {
+        try {
+          if (!uploadedImageBase64_1 || !uploadedImageBase64_2) {
+            setError('Her iki kişinin fotoğrafını da yüklemelisin.');
+            return;
+          }
+          setError('');
+          setLoading(true);
+
+          const selectedWonder = WONDERS[selectedWonderIndex];
+
+          const shotDescription = shotType === 'selfie'
+            ? 'a close-up couple selfie angle, showing both faces clearly with the landmark filling the background.'
+            : 'a full-body portrait shot of the two people standing close together in the scene.';
+
+          const seasonPrompt = selectedSeason === 'summer'
+            ? 'The environment should be sunny, bright, and warm. Both people should be wearing appropriate summer or light clothing (e.g., shorts, t-shirt, light dress).'
+            : 'The environment should feature winter weather (e.g., snow, frost, cloudy sky). Both people must be wearing heavy winter clothes (e.g., coats, hats, gloves, scarves). Ensure the clothing is appropriate for cold weather.';
+
+          const systemPrompt =
+            "You are an expert AI photo compositor. Your primary instruction is to achieve *maximum fidelity* between the *faces and unique identities* of BOTH people in the input images and the people in the generated output. The two people must be placed seamlessly as a couple in the scene with perfectly matched lighting, shadow, and perspective. Preserve the people's clothes/pose as much as possible while integrating them into the new environment. The result must be a high-resolution, photorealistic travel photograph.";
+
+          const userQuery = `Integrate the two people from the provided images into a hyper-realistic, high-definition, 16:9 aspect ratio scene at **${selectedWonder.promptDetail}**. **Maximum facial resemblance to both uploaded people is mandatory.** The two people should be interacting as a couple (e.g., holding hands, standing close). The shot style should be **${shotDescription}**. **${seasonPrompt}** The final image must be of a couple standing at the landmark.`;
+
+          const payload = {
+            contents: [
+              {
+                role: "user",
+                parts: [
+                  { text: userQuery },
+                  { inlineData: { mimeType: "image/png", data: uploadedImageBase64_1 } },
+                  { inlineData: { mimeType: "image/png", data: uploadedImageBase64_2 } }
+                ]
+              }
+            ],
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+            generationConfig: {
+              responseModalities: ["IMAGE"],
+              imageGenerationConfig: { numberOfImages: 1, aspectRatio: "16:9" }
+            },
+            model: "gemini-2.5-flash-image-preview"
+          };
+
+          const response = await fetch(API_URL + API_KEY, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) {
+            throw new Error(`API isteği başarısız oldu: ${response.statusText}`);
+          }
+
+          const result = await response.json();
+          const base64Data =
+            result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
+
+          if (base64Data) {
+            const generatedImageUrl = `data:image/png;base64,${base64Data}`;
+            $img.src = generatedImageUrl;
+            $img.classList.remove("hidden");
+            $placeholder.classList.add("hidden");
+            $actions.classList.remove("hidden");
+            $download.href = generatedImageUrl;
+          } else {
+            throw new Error("Görsel verisi alınamadı.");
+          }
+        } catch (error) {
+          console.error(`Görsel oluşturma hatası:`, error);
+          setError(error?.message || 'Bir hata oluştu.');
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // Reset
+      $reset.addEventListener('click', () => {
+        uploadedImageBase64_1 = null;
+        uploadedImageBase64_2 = null;
+        $prev1.innerHTML = '';
+        $prev2.innerHTML = '';
+        $rm1.classList.add('hidden');
+        $rm2.classList.add('hidden');
+        $img.classList.add('hidden');
+        $img.removeAttribute('src');
+        $placeholder.classList.remove('hidden');
+        $actions.classList.add('hidden');
+        setError('');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>

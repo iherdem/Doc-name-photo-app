@@ -1,0 +1,112 @@
+﻿/* ====== Tema değişkenleri ====== */
+:root {
+  --brand: #4f46e5;       /* indigo-600 */
+  --brand-dark: #4338ca;  /* indigo-700 */
+  --accent: #0ea5e9;      /* sky-500 */
+  --success: #16a34a;     /* green-600 */
+  --danger: #ef4444;      /* red-500 */
+  --muted: #6b7280;       /* gray-500 */
+  --bg-soft: #f3f4f6;     /* gray-100 */
+}
+
+/* Genel iyileştirmeler */
+html, body { height: 100%; }
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Odak görünürlüğü (erişilebilirlik) */
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand) 65%, white);
+  outline-offset: 2px;
+  border-radius: .5rem;
+}
+
+/* Yükleme katmanı ebeveyne tam otursun */
+#loading-overlay {
+  display: none;               /* JS açıp kapatıyor */
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dosya bırakma alanı */
+#drop-area-1,
+#drop-area-2 {
+  transition: border-color .2s, background-color .2s, transform .15s;
+  will-change: transform;
+}
+.drop-area-active {
+  border-color: var(--brand);
+  background-color: #eef2ff; /* indigo-50 */
+  transform: translateZ(0) scale(1.01);
+}
+
+/* Yüklenen görseller önizleme */
+#image-preview-1 img,
+#image-preview-2 img {
+  border-radius: .75rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+
+/* Kaldır düğmeleri */
+#remove-image-btn-1,
+#remove-image-btn-2 {
+  box-shadow: 0 6px 16px rgba(239,68,68,.35);
+  transition: transform .15s ease;
+}
+#remove-image-btn-1:hover,
+#remove-image-btn-2:hover {
+  transform: scale(1.06);
+}
+
+/* Hata mesajı mikro animasyon */
+#error-message {
+  animation: error-pop .2s ease;
+}
+@keyframes error-pop {
+  from { transform: scale(.98); opacity: .8; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* Oluştur düğmesi: devre dışı stili */
+#generate-btn[disabled] {
+  background: #e5e7eb !important;   /* gray-200 */
+  color: #9ca3af !important;        /* gray-400 */
+  border-color: #e5e7eb !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+}
+
+/* Sonuç kutusu oran koruma (eski tarayıcılar için yedek) */
+#result-container {
+  aspect-ratio: 16 / 9;
+}
+
+/* Wonder (harika) seçim butonları için ortak görünüm
+   (JS className değiştiriyor; yine de tutarlı boşluklar verelim) */
+.wonder-btn {
+  line-height: 1.1;
+}
+
+/* Çekim/Mevsim butonlarının hızlı geri bildirimi */
+.shot-type-btn,
+.season-type-btn {
+  transition: transform .12s ease;
+}
+.shot-type-btn:active,
+.season-type-btn:active {
+  transform: scale(.98);
+}
+
+/* Bilgilendirme kutusu */
+#action-buttons .bg-indigo-50 {
+  backdrop-filter: saturate(1.1);
+}
+
+/* Footer rengi yumuşatma */
+footer {
+  color: #9aa3b2;
+}
