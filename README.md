@@ -1,2 +1,2 @@
-# Doc-name-photo-app
-Gemini API kullanarak yapay zeka doktor portresi oluşturucu
+# Seyahat Foto app
+Gemini API kullanarak yapay zeka seyahat foto oluşturucu
