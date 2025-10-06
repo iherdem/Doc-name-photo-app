@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini Sanal Seyahat Çift Fotoğrafçısı</title>
+    <title>Gemini Sanal Seyahat Fotoğrafçısı</title>
     <!-- Tailwind CSS Yükleniyor -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -37,16 +37,15 @@
             background-color: #eef2ff;
         }
     </style>
-<link rel="stylesheet" href="./style.css">
 </head>
 <body class="bg-gray-50 min-h-screen p-4 sm:p-6">
 
     <header class="text-center mb-6 max-w-4xl mx-auto">
         <h1 class="text-3xl sm:text-4xl font-extrabold text-indigo-700 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart w-8 h-8 mr-2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-            Gemini Sanal Seyahat Çift Fotoğrafçısı
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-camera w-8 h-8 mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            Gemini Sanal Seyahat Fotoğrafçısı
         </h1>
-        <p class="text-gray-500 mt-2">İki kişinin fotoğraflarını seçtiğiniz bir seyahat harikasına, yüz benzerliğini koruyarak yerleştirin.</p>
+        <p class="text-gray-500 mt-2">Kendi fotoğrafınızı seçtiğiniz bir seyahat harikasına, yüz benzerliğini koruyarak yerleştirin.</p>
     </header>
 
     <div class="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-2xl relative">
@@ -67,62 +66,33 @@
         <!-- Adım 1: Fotoğraf Yükleme -->
         <div class="flex items-center space-x-2 my-4">
             <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 font-bold text-lg">1</div>
-            <h2 class="text-xl font-bold text-gray-800">Çift Fotoğraflarınızı Yükleyin (Yüksek Yüz Benzerliği İçin Net Yüzler Gerekir)</h2>
+            <h2 class="text-xl font-bold text-gray-800">Kendi Fotoğrafınızı Yükleyin (Yüksek Yüz Benzerliği İçin Net Yüz Gerekir)</h2>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-            <!-- FOTOĞRAF 1 Yükleme Alanı -->
+        <div class="max-w-md mx-auto">
+            <!-- FOTOĞRAF Yükleme Alanı -->
             <div>
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">Partner 1 (Sol)</h3>
                 <div
-                    id="drop-area-1"
+                    id="drop-area"
                     class="p-6 border-2 border-dashed border-gray-300 rounded-xl text-center transition duration-300 cursor-pointer hover:drop-area-active"
-                    onclick="document.getElementById('file-upload-1').click()"
+                    onclick="document.getElementById('file-upload').click()"
                 >
-                    <div id="image-preview-1" class="hidden relative">
-                        <img id="uploaded-image-1" src="" alt="Partner 1 Önizleme" class="mx-auto max-h-48 object-contain rounded-lg shadow-md" />
+                    <div id="image-preview" class="hidden relative">
+                        <img id="uploaded-image" src="" alt="Yüklenen Fotoğraf Önizleme" class="mx-auto max-h-48 object-contain rounded-lg shadow-md" />
                         <button
-                            id="remove-image-btn-1"
+                            id="remove-image-btn"
                             class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-700 transition z-10"
-                            aria-label="Partner 1 Fotoğrafını Kaldır"
+                            aria-label="Fotoğrafı Kaldır"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
                     </div>
-                    <div id="upload-prompt-1" class="text-gray-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user w-8 h-8 mx-auto mb-2 text-indigo-500"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <div id="upload-prompt" class="text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-image w-8 h-8 mx-auto mb-2 text-indigo-500"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                         <p class="font-medium">Sürükleyip bırakın veya tıklayın.</p>
-                        <p class="text-sm">Partner 1 fotoğrafını yükleyin</p>
+                        <p class="text-sm">Yüzünüzün net olduğu bir fotoğraf yükleyin</p>
                     </div>
-                    <input id="file-upload-1" type="file" accept="image/png, image/jpeg" class="hidden" />
-                </div>
-            </div>
-
-            <!-- FOTOĞRAF 2 Yükleme Alanı -->
-            <div>
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">Partner 2 (Sağ)</h3>
-                <div
-                    id="drop-area-2"
-                    class="p-6 border-2 border-dashed border-gray-300 rounded-xl text-center transition duration-300 cursor-pointer hover:drop-area-active"
-                    onclick="document.getElementById('file-upload-2').click()"
-                >
-                    <div id="image-preview-2" class="hidden relative">
-                        <img id="uploaded-image-2" src="" alt="Partner 2 Önizleme" class="mx-auto max-h-48 object-contain rounded-lg shadow-md" />
-                        <button
-                            id="remove-image-btn-2"
-                            class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-700 transition z-10"
-                            aria-label="Partner 2 Fotoğrafını Kaldır"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                        </button>
-                    </div>
-                    <div id="upload-prompt-2" class="text-gray-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus w-8 h-8 mx-auto mb-2 text-indigo-500"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
-                        <p class="font-medium">Sürükleyip bırakın veya tıklayın.</p>
-                        <p class="text-sm">Partner 2 fotoğrafını yükleyin</p>
-                    </div>
-                    <input id="file-upload-2" type="file" accept="image/png, image/jpeg" class="hidden" />
+                    <input id="file-upload" type="file" accept="image/png, image/jpeg" class="hidden" />
                 </div>
             </div>
         </div>
@@ -143,11 +113,11 @@
         <!-- Adım 3: Çekim Tipi Seçimi -->
         <div class="flex items-center space-x-2 my-4">
             <div class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 font-bold text-lg">3</div>
-            <h2 class="text-xl font-bold text-gray-800">Çift Çekim Tipi Seçeneği</h2>
+            <h2 class="text-xl font-bold text-gray-800">Çekim Tipi Seçeneği</h2>
         </div>
         <div class="flex space-x-4 justify-center">
             <button id="selfie-btn" data-shot="selfie" class="shot-type-btn flex items-center space-x-2 p-3 rounded-xl transition-all duration-200 border-2 w-1/2 bg-blue-500 text-white border-blue-700 shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-smile"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
                 <span class="font-medium">Yakın Çekim (Selfie Tarzı)</span>
             </button>
             <button id="normal-btn" data-shot="normal" class="shot-type-btn flex items-center space-x-2 p-3 rounded-xl transition-all duration-200 border-2 w-1/2 bg-white text-gray-700 border-gray-300 hover:border-green-400">
@@ -155,7 +125,7 @@
                 <span class="font-medium">Uzak Çekim (Boydan Görünüm)</span>
             </button>
         </div>
-
+        
         <hr class="my-8 border-gray-200" />
 
         <!-- Adım 4: Mevsim Seçeneği -->
@@ -174,13 +144,14 @@
             </button>
         </div>
 
+
         <hr class="my-8 border-gray-200" />
 
         <!-- Adım 5: Oluşturma -->
         <div class="text-center">
             <button id="generate-btn" class="flex items-center justify-center space-x-2 px-6 py-3 font-bold rounded-xl transition-all duration-200 shadow-xl bg-indigo-600 hover:bg-indigo-700 text-white active:scale-[0.98] mx-auto min-w-[250px] h-12" disabled>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-wand"><polyline points="22 2 15 9 8 2 1 9 8 16 15 9 22 2"></polyline><path d="M12 2v20"></path></svg>
-                <span>Sanal Seyahati Başlat! (İki Kişi)</span>
+                <span>Sanal Seyahati Başlat!</span>
             </button>
         </div>
 
@@ -193,27 +164,27 @@
         </h2>
 
         <div id="result-container" class="bg-gray-100 min-h-64 rounded-xl flex items-center justify-center overflow-hidden shadow-inner aspect-video">
-            <p id="result-placeholder" class="text-gray-500 p-4">Sonuç burada görünecektir. İki fotoğraf yüklediğinizden emin olun.</p>
+            <p id="result-placeholder" class="text-gray-500 p-4">Sonuç burada görünecektir. Fotoğraf yüklediğinizden emin olun.</p>
             <img id="generated-image" src="" alt="Sanal Seyahat Sonucu" class="hidden w-full h-full object-contain" />
         </div>
         
         <!-- Manuel Kaydetme Talimatı -->
         <div id="action-buttons" class="hidden mt-6">
-            <h3 class="text-center text-xl font-bold text-indigo-700 mb-4">Çift Fotoğrafınız Hazır!</h3>
+            <h3 class="text-center text-xl font-bold text-indigo-700 mb-4">Sanal Fotoğrafınız Hazır!</h3>
             
             <div class="text-center text-base text-gray-800 bg-indigo-50 border border-indigo-200 p-4 rounded-xl max-w-lg mx-auto font-medium shadow-md">
                 <p class="font-bold text-indigo-800 mb-2">Görseli Kaydetmek veya Paylaşmak İçin:</p>
                 <ul class="list-disc list-inside text-left mx-auto max-w-xs">
-                    <li>*Mobil Cihazda:* Görselin üzerine *uzun basın* (basılı tutun).</li>
-                    <li>*Masaüstünde:* Görselin üzerine *sağ tıklayın*.</li>
+                    <li>**Mobil Cihazda:** Görselin üzerine **uzun basın** (basılı tutun).</li>
+                    <li>**Masaüstünde:** Görselin üzerine **sağ tıklayın**.</li>
                 </ul>
-                <p class="mt-2 font-semibold">Ardından, çıkan menüden *"Görseli İndir/Kaydet"* veya *"Görseli Paylaş"* seçeneğini kullanın.</p>
+                <p class="mt-2 font-semibold">Ardından, çıkan menüden **"Görseli İndir/Kaydet"** veya **"Görseli Paylaş"** seçeneğini kullanın.</p>
             </div>
         </div>
     </div>
     
     <footer class="text-center text-sm text-gray-400 mt-6 pb-4">
-        Powered by Gemini 2.5 Flash for Image Generation (Duo Mode)
+        Powered by Gemini 2.5 Flash for Image Generation
     </footer>
 
     <script type="module">
@@ -247,9 +218,8 @@
             { name: 'Chichén Itzá', promptDetail: 'El Castillo pyramid at Chichén Itzá, sunny and clear day', icon: '🇲🇽' },
         ];
 
-        // İki farklı fotoğraf için durum değişkenleri
-        let uploadedImageBase64_1 = null;
-        let uploadedImageBase64_2 = null;
+        // Tek kişi için durum değişkeni
+        let uploadedImageBase64 = null;
         let selectedWonder = WONDERS[0];
         let shotType = 'selfie';
         let selectedSeason = 'summer'; 
@@ -264,22 +234,14 @@
         const $resultPlaceholder = document.getElementById('result-placeholder');
         const $actionButtons = document.getElementById('action-buttons');
         
-        // Partner 1 Elementleri
-        const $fileUpload1 = document.getElementById('file-upload-1');
-        const $uploadedImage1 = document.getElementById('uploaded-image-1');
-        const $imagePreview1 = document.getElementById('image-preview-1');
-        const $uploadPrompt1 = document.getElementById('upload-prompt-1');
-        const $removeImageBtn1 = document.getElementById('remove-image-btn-1');
-        const $dropArea1 = document.getElementById('drop-area-1');
+        // Fotoğraf Elementleri (Tek set)
+        const $fileUpload = document.getElementById('file-upload');
+        const $uploadedImage = document.getElementById('uploaded-image');
+        const $imagePreview = document.getElementById('image-preview');
+        const $uploadPrompt = document.getElementById('upload-prompt');
+        const $removeImageBtn = document.getElementById('remove-image-btn');
+        const $dropArea = document.getElementById('drop-area');
 
-        // Partner 2 Elementleri
-        const $fileUpload2 = document.getElementById('file-upload-2');
-        const $uploadedImage2 = document.getElementById('uploaded-image-2');
-        const $imagePreview2 = document.getElementById('image-preview-2');
-        const $uploadPrompt2 = document.getElementById('upload-prompt-2');
-        const $removeImageBtn2 = document.getElementById('remove-image-btn-2');
-        const $dropArea2 = document.getElementById('drop-area-2');
-        
         // Çekim/Mevsim Butonları
         const $selfieBtn = document.querySelector('[data-shot="selfie"]');
         const $normalBtn = document.querySelector('[data-shot="normal"]');
@@ -289,12 +251,12 @@
         // --- Yardımcı Fonksiyonlar ---
 
         function updateGenerateButtonState() {
-            const isReady = uploadedImageBase64_1 && uploadedImageBase64_2;
+            const isReady = uploadedImageBase64 !== null;
             $generateBtn.disabled = !isReady;
             if (!isReady) {
-                $generateBtn.textContent = 'İki fotoğrafı da yükleyin';
+                $generateBtn.textContent = 'Lütfen fotoğrafınızı yükleyin';
             } else {
-                $generateBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-wand"><polyline points="22 2 15 9 8 2 1 9 8 16 15 9 22 2"></polyline><path d="M12 2v20"></path></svg> <span>Sanal Seyahati Başlat! (İki Kişi)</span>';
+                $generateBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-wand"><polyline points="22 2 15 9 8 2 1 9 8 16 15 9 22 2"></polyline><path d="M12 2v20"></path></svg> <span>Sanal Seyahati Başlat!</span>';
             }
         }
 
@@ -321,7 +283,7 @@
             }
         }
 
-        function handleFileUpload(file, index) {
+        function handleFileUpload(file) {
             displayMessage('', false);
             if (!file || !file.type.startsWith('image/')) {
                 displayMessage('Lütfen geçerli bir görsel dosyası yükleyin.', true);
@@ -332,20 +294,7 @@
             reader.onload = (e) => {
                 const base64Part = e.target.result.split(',')[1];
                 
-                let $uploadedImage, $imagePreview, $uploadPrompt;
-
-                if (index === 1) {
-                    uploadedImageBase64_1 = base64Part; 
-                    $uploadedImage = $uploadedImage1;
-                    $imagePreview = $imagePreview1;
-                    $uploadPrompt = $uploadPrompt1;
-                } else {
-                    uploadedImageBase64_2 = base64Part; 
-                    $uploadedImage = $uploadedImage2;
-                    $imagePreview = $imagePreview2;
-                    $uploadPrompt = $uploadPrompt2;
-                }
-                
+                uploadedImageBase64 = base64Part; 
                 $uploadedImage.src = e.target.result;
                 $imagePreview.classList.remove('hidden');
                 $uploadPrompt.classList.add('hidden');
@@ -363,18 +312,12 @@
             reader.readAsDataURL(file);
         }
 
-        function removeImage(index) {
-            if (index === 1) {
-                uploadedImageBase64_1 = null;
-                $uploadedImage1.src = '';
-                $imagePreview1.classList.add('hidden');
-                $uploadPrompt1.classList.remove('hidden');
-            } else {
-                uploadedImageBase64_2 = null;
-                $uploadedImage2.src = '';
-                $imagePreview2.classList.add('hidden');
-                $uploadPrompt2.classList.remove('hidden');
-            }
+        function removeImage() {
+            uploadedImageBase64 = null;
+            $uploadedImage.src = '';
+            $imagePreview.classList.add('hidden');
+            $uploadPrompt.classList.remove('hidden');
+            
             generatedImageUrl = null;
             $generatedImage.classList.add('hidden');
             $resultPlaceholder.classList.remove('hidden');
@@ -409,8 +352,8 @@
         // --- Core İşleyiciler ---
 
         async function generateImage() {
-            if (!uploadedImageBase64_1 || !uploadedImageBase64_2) {
-                displayMessage('Lütfen her iki partnerin de fotoğrafını yükleyin.', true);
+            if (!uploadedImageBase64) {
+                displayMessage('Lütfen bir fotoğraf yükleyin.', true);
                 return;
             }
 
@@ -418,19 +361,19 @@
             displayMessage('', false);
             
             const shotDescription = shotType === 'selfie'
-                ? 'a close-up couple selfie angle, showing both faces clearly with the landmark filling the background.'
-                : 'a full-body portrait shot of the two people standing close together in the scene.';
+                ? 'a close-up selfie angle, showing the person\'s face clearly with the landmark filling the background.'
+                : 'a full-body portrait shot of the person standing in the scene.';
                 
             const seasonPrompt = selectedSeason === 'summer'
-                ? 'The environment should be sunny, bright, and warm. Both people should be wearing appropriate summer or light clothing (e.g., shorts, t-shirt, light dress).'
-                : 'The environment should feature winter weather (e.g., snow, frost, cloudy sky). Both people must be wearing heavy winter clothes (e.g., coats, hats, gloves, scarves). Ensure the clothing is appropriate for cold weather.';
+                ? 'The environment should be sunny, bright, and warm. The person should be wearing appropriate summer or light clothing (e.g., shorts, t-shirt, light dress).'
+                : 'The environment should feature winter weather (e.g., snow, frost, cloudy sky). The person must be wearing heavy winter clothes (e.g., coat, hat, gloves, scarf). Ensure the clothing is appropriate for cold weather.';
 
 
-            // Yüz benzerliğini maksimize etmek için güncellenen System Prompt (iki kişi için)
-            const systemPrompt = "You are an expert AI photo compositor. Your primary instruction is to achieve *maximum fidelity* between the *faces and unique identities* of BOTH people in the input images and the people in the generated output. The two people must be placed seamlessly as a couple in the scene with perfectly matched lighting, shadow, and perspective. Preserve the people's clothes/pose as much as possible while integrating them into the new environment. The result must be a high-resolution, photorealistic travel photograph.";
+            // Yüz benzerliğini maksimize etmek için System Prompt (tek kişi için)
+            const systemPrompt = "You are an expert AI photo compositor. Your primary instruction is to achieve **maximum fidelity** between the **face and unique identity** of the person in the input image and the person in the generated output. The person must be placed seamlessly in the scene with perfectly matched lighting, shadow, and perspective. Preserve the person's clothes/pose as much as possible while integrating them into the new environment. The result must be a high-resolution, photorealistic travel photograph.";
 
             // Yüz benzerliğini vurgulayan User Query
-            const userQuery = Integrate the two people from the provided images into a hyper-realistic, high-definition, 16:9 aspect ratio scene at **${selectedWonder.promptDetail}**. **Maximum facial resemblance to both uploaded people is mandatory.** The two people should be interacting as a couple (e.g., holding hands, standing close). The shot style should be **${shotDescription}**. **${seasonPrompt}** The final image must be of a couple standing at the landmark.;
+            const userQuery = `Integrate the single person from the provided image into a hyper-realistic, high-definition, 16:9 aspect ratio scene at **${selectedWonder.promptDetail}**. **Maximum facial resemblance to the uploaded person is mandatory.** The shot style should be **${shotDescription}**. **${seasonPrompt}** The final image must be of a single person at the landmark.`;
 
             const payload = {
                 contents: [
@@ -438,18 +381,11 @@
                         role: "user",
                         parts: [
                             { text: userQuery },
-                            // Partner 1 görseli
+                            // Tek partner görseli
                             {
                                 inlineData: {
                                     mimeType: "image/png",
-                                    data: uploadedImageBase64_1
-                                }
-                            },
-                            // Partner 2 görseli
-                             {
-                                inlineData: {
-                                    mimeType: "image/png",
-                                    data: uploadedImageBase64_2
+                                    data: uploadedImageBase64
                                 }
                             }
                         ]
@@ -482,14 +418,14 @@
                     });
 
                     if (!response.ok) {
-                        throw new Error(API isteği başarısız oldu: ${response.statusText});
+                        throw new Error(`API isteği başarısız oldu: ${response.statusText}`);
                     }
 
                     const result = await response.json();
                     const base64Data = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
 
                     if (base64Data) {
-                        generatedImageUrl = data:image/png;base64,${base64Data};
+                        generatedImageUrl = `data:image/png;base64,${base64Data}`;
                         $generatedImage.src = generatedImageUrl;
                         $generatedImage.classList.remove('hidden');
                         $resultPlaceholder.classList.add('hidden');
@@ -499,7 +435,7 @@
                         throw new Error("Görsel verisi alınamadı.");
                     }
                 } catch (error) {
-                    console.error(Görsel oluşturma hatası (Deneme ${attempt}):, error);
+                    console.error(`Görsel oluşturma hatası (Deneme ${attempt}):`, error);
                     if (attempt < maxRetries) {
                         const delay = Math.pow(2, attempt) * 1000;
                         await new Promise(resolve => setTimeout(resolve, delay));
@@ -517,8 +453,8 @@
             // Wonder Butonlarını Oluştur
             WONDERS.forEach((wonder, index) => {
                 const btn = document.createElement('button');
-                btn.className = wonder-btn flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl text-center transition-all duration-200 border-2 shadow-sm ${index === 0 ? 'bg-indigo-600 text-white border-indigo-700 scale-[1.02] shadow-indigo-300/50' : 'bg-white text-gray-700 border-gray-200 hover:border-indigo-400'};
-                btn.innerHTML = <span class="text-2xl mb-1">${wonder.icon}</span><span class="text-sm font-medium">${wonder.name}</span>;
+                btn.className = `wonder-btn flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl text-center transition-all duration-200 border-2 shadow-sm ${index === 0 ? 'bg-indigo-600 text-white border-indigo-700 scale-[1.02] shadow-indigo-300/50' : 'bg-white text-gray-700 border-gray-200 hover:border-indigo-400'}`;
+                btn.innerHTML = `<span class="text-2xl mb-1">${wonder.icon}</span><span class="text-sm font-medium">${wonder.name}</span>`;
                 btn.setAttribute('data-index', index);
                 $wonderSelection.appendChild(btn);
             });
@@ -526,38 +462,30 @@
             // --- Event Dinleyicileri ---
 
             // 1. Dosya Yükleme Dinleyicileri
-            $fileUpload1.addEventListener('change', (e) => handleFileUpload(e.target.files[0], 1));
-            $fileUpload2.addEventListener('change', (e) => handleFileUpload(e.target.files[0], 2));
+            $fileUpload.addEventListener('change', (e) => handleFileUpload(e.target.files[0]));
 
-            $removeImageBtn1.addEventListener('click', (e) => { e.stopPropagation(); removeImage(1); });
-            $removeImageBtn2.addEventListener('click', (e) => { e.stopPropagation(); removeImage(2); });
+            $removeImageBtn.addEventListener('click', (e) => { e.stopPropagation(); removeImage(); });
 
-            // Drag and Drop Dinleyicileri için genel fonksiyon
-            const setupDropArea = (dropArea, fileInputId, index) => {
-                const fileInput = document.getElementById(fileInputId);
-                dropArea.addEventListener('dragover', (e) => { 
-                    e.preventDefault(); 
-                    e.stopPropagation(); 
-                    dropArea.classList.add('drop-area-active');
-                });
-                dropArea.addEventListener('dragleave', (e) => { 
-                    e.preventDefault(); 
-                    e.stopPropagation(); 
-                    dropArea.classList.remove('drop-area-active');
-                });
-                dropArea.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dropArea.classList.remove('drop-area-active');
-                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                        handleFileUpload(e.dataTransfer.files[0], index);
-                        fileInput.files = e.dataTransfer.files; // Dosyayı file input'a da ekle
-                    }
-                });
-            };
-
-            setupDropArea($dropArea1, 'file-upload-1', 1);
-            setupDropArea($dropArea2, 'file-upload-2', 2);
+            // Drag and Drop Dinleyicileri 
+            $dropArea.addEventListener('dragover', (e) => { 
+                e.preventDefault(); 
+                e.stopPropagation(); 
+                $dropArea.classList.add('drop-area-active');
+            });
+            $dropArea.addEventListener('dragleave', (e) => { 
+                e.preventDefault(); 
+                e.stopPropagation(); 
+                $dropArea.classList.remove('drop-area-active');
+            });
+            $dropArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                $dropArea.classList.remove('drop-area-active');
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    handleFileUpload(e.dataTransfer.files[0]);
+                    $fileUpload.files = e.dataTransfer.files; // Dosyayı file input'a da ekle
+                }
+            });
 
 
             // 2. Wonder Seçim Dinleyicileri
